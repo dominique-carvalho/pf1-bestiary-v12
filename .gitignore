@@ -1,0 +1,6 @@
+# artefatos de build: o zip vai como asset da release
+build/
+dist/
+out-packs/
+node_modules/
+*.zip

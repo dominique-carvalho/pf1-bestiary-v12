@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Como instalar o Bestiário de Pathfinder 1e no Foundry</title>
+<style>
+  :root {
+    --tinta: #23201c;
+    --suave: #6b6357;
+    --linha: #ddd5c8;
+    --papel: #fdfbf7;
+    --caixa: #f4efe6;
+    --alerta: #9c3b26;
+    --alerta-bg: #fbeeea;
+    --dica: #3c6e47;
+    --dica-bg: #eef5ef;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 40px 20px 80px;
+    background: var(--papel); color: var(--tinta);
+    font: 17px/1.65 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  .folha { max-width: 760px; margin: 0 auto; }
+  h1 { font-size: 30px; line-height: 1.2; margin: 0 0 6px; }
+  .sub { color: var(--suave); margin: 0 0 32px; font-size: 16px; }
+  h2 {
+    font-size: 20px; margin: 44px 0 14px; padding-top: 22px;
+    border-top: 2px solid var(--linha);
+  }
+  h2 .num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 30px; height: 30px; margin-right: 10px; border-radius: 50%;
+    background: var(--tinta); color: var(--papel);
+    font-size: 16px; font-weight: 700; vertical-align: 2px;
+  }
+  p { margin: 12px 0; }
+  ul, ol { margin: 12px 0; padding-left: 26px; }
+  li { margin: 7px 0; }
+  code {
+    background: var(--caixa); border: 1px solid var(--linha); border-radius: 4px;
+    padding: 2px 6px; font-family: Consolas, "SF Mono", Menlo, monospace; font-size: 15px;
+    word-break: break-all;
+  }
+  .caminho {
+    display: block; padding: 12px 14px; margin: 14px 0;
+    background: var(--caixa); border: 1px solid var(--linha); border-radius: 6px;
+    font-family: Consolas, "SF Mono", Menlo, monospace; font-size: 15px;
+    user-select: all; word-break: break-all;
+  }
+  .box { border-left: 4px solid; border-radius: 0 6px 6px 0; padding: 14px 18px; margin: 18px 0; }
+  .box p:first-child { margin-top: 0; }
+  .box p:last-child { margin-bottom: 0; }
+  .atencao { border-color: var(--alerta); background: var(--alerta-bg); }
+  .atencao .rotulo { color: var(--alerta); font-weight: 700; }
+  .dica { border-color: var(--dica); background: var(--dica-bg); }
+  .dica .rotulo { color: var(--dica); font-weight: 700; }
+  .rotulo { display: block; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 6px; }
+  .arvore {
+    background: var(--caixa); border: 1px solid var(--linha); border-radius: 6px;
+    padding: 16px 18px; margin: 16px 0; overflow-x: auto;
+    font-family: Consolas, "SF Mono", Menlo, monospace; font-size: 14.5px; line-height: 1.55;
+  }
+  .certo { color: var(--dica); font-weight: 700; }
+  .errado { color: var(--alerta); font-weight: 700; }
+  .arvore .marca { font-weight: 700; }
+  table { border-collapse: collapse; width: 100%; margin: 16px 0; font-size: 15.5px; }
+  th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--linha); vertical-align: top; }
+  th { background: var(--caixa); font-size: 14px; text-transform: uppercase; letter-spacing: .04em; }
+  .rodape { margin-top: 50px; padding-top: 18px; border-top: 2px solid var(--linha); color: var(--suave); font-size: 14.5px; }
+  @media print {
+    body { padding: 0; font-size: 12pt; background: #fff; }
+    h2 { page-break-after: avoid; }
+    .box, .arvore, table { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="folha">
+
+<h1>Como instalar o Bestiário de Pathfinder 1e</h1>
+<p class="sub">Guia passo a passo &middot; módulo <strong>pf1-bestiary</strong> versão 0.4.0 &middot; para Foundry VTT 12 ou 13</p>
+
+<p>Você vai receber um arquivo chamado <code>pf1-bestiary-0.4.0.zip</code>, de cerca de 56&nbsp;MB.
+Ele contém 3.023 monstros dos Bestiários 1 a 6 prontos para usar.</p>
+
+<p>São 7 passos e leva uns 15 minutos, boa parte só de espera.
+Não precisa saber nada de programação — é copiar uma pasta e clicar em dois botões.
+Mas <strong>siga a ordem</strong>: os passos 1 e 6 são os que costumam dar problema quando pulados.</p>
+
+<div class="box dica">
+  <span class="rotulo">Antes de começar</span>
+  <p>Confira que o sistema <strong>Pathfinder 1e</strong> já está instalado no seu Foundry
+  (versão 10 ou mais nova). Este módulo só adiciona monstros; ele não funciona sozinho.</p>
+</div>
+
+<h2><span class="num">1</span>Feche o Foundry por completo</h2>
+
+<p>Não basta sair do mundo e voltar para a tela inicial — é preciso <strong>encerrar o programa</strong>.</p>
+
+<ul>
+  <li>Feche a janela do Foundry.</li>
+  <li>Olhe perto do relógio, no canto inferior direito da tela. Se houver um ícone do Foundry
+      ali (às vezes escondido atrás da setinha <code>^</code>), clique com o botão direito nele
+      e escolha sair.</li>
+</ul>
+
+<div class="box atencao">
+  <span class="rotulo">Por que isso importa</span>
+  <p>Os monstros ficam guardados em arquivos de banco de dados. Enquanto o Foundry está aberto
+  ele <em>trava</em> esses arquivos, e a cópia falha no meio — deixando o módulo pela metade,
+  sem nenhum aviso de erro. É o erro mais comum nesta instalação.</p>
+</div>
+
+<h2><span class="num">2</span>Abra a pasta de módulos do Foundry</h2>
+
+<p>No Windows, aperte as teclas <code>Windows</code> + <code>R</code> juntas. Vai abrir uma
+caixinha pequena. Cole exatamente isto dentro dela e aperte Enter:</p>
+
+<code class="caminho">%localappdata%\FoundryVTT\Data\modules</code>
+
+<p>Deve abrir uma janela do Explorador com várias pastas dentro — são os módulos que você já tem instalados.</p>
+
+<div class="box dica">
+  <span class="rotulo">Se não abrir</span>
+  <p>Seu Foundry pode guardar os dados em outro lugar. Para descobrir onde: abra o Foundry,
+  e na tela inicial procure <em>Configuration</em> (Configuração). Lá aparece o
+  <strong>User Data Path</strong> — o caminho da pasta. A pasta <code>modules</code> fica
+  dentro de <code>Data</code>, nesse caminho. Anote e volte aqui, lembrando de fechar
+  o Foundry de novo antes de continuar.</p>
+</div>
+
+<h2><span class="num">3</span>Apague a versão antiga, se existir</h2>
+
+<p>Procure nessa janela uma pasta chamada <code>pf1-bestiary</code>.</p>
+
+<ul>
+  <li><strong>Se existir:</strong> apague a pasta inteira (clique nela e aperte Delete).</li>
+  <li><strong>Se não existir:</strong> ótimo, siga para o próximo passo.</li>
+</ul>
+
+<div class="box atencao">
+  <span class="rotulo">Não misture as versões</span>
+  <p>Não cole a nova por cima da antiga. A versão antiga guardava os monstros em um formato
+  diferente, e os dois juntos fazem o Foundry se confundir. Tem que apagar mesmo.</p>
+</div>
+
+<h2><span class="num">4</span>Extraia o arquivo zip aqui</h2>
+
+<ol>
+  <li>Clique com o botão direito no arquivo <code>pf1-bestiary-0.4.0.zip</code>.</li>
+  <li>Escolha <strong>Extrair tudo…</strong></li>
+  <li>Onde ele pergunta o destino, cole o mesmo caminho do passo 2
+      (<code>%localappdata%\FoundryVTT\Data\modules</code>) e confirme.</li>
+</ol>
+
+<p>Quando terminar, <strong>confira se ficou certo</strong>. Entre na pasta
+<code>pf1-bestiary</code> que foi criada. Você deve ver isto:</p>
+
+<div class="arvore">
+<span class="certo">✓ CERTO</span>
+
+modules\
+ └── pf1-bestiary\
+      ├── <span class="marca">module.json</span>   ← este arquivo tem que estar aqui
+      ├── packs\
+      ├── artwork\
+      ├── LICENSE.txt
+      └── MIGRACAO-v12.md
+</div>
+
+<div class="arvore">
+<span class="errado">✗ ERRADO</span> — pasta repetida dentro da pasta
+
+modules\
+ └── pf1-bestiary\
+      └── <span class="marca">pf1-bestiary\</span>   ← se aparecer isto, está errado
+           ├── module.json
+           └── packs\
+</div>
+
+<p>Se caiu no caso errado, é fácil resolver: entre na pasta de dentro, selecione tudo
+(<code>Ctrl</code>+<code>A</code>), recorte (<code>Ctrl</code>+<code>X</code>), volte uma pasta
+e cole (<code>Ctrl</code>+<code>V</code>). Depois apague a pasta vazia que sobrou.</p>
+
+<h2><span class="num">5</span>Abra o Foundry e ative o módulo</h2>
+
+<ol>
+  <li>Abra o Foundry e entre no seu mundo de Pathfinder 1e.</li>
+  <li>Na barra de ícones à direita, clique na <strong>engrenagem</strong> (Configurações do Jogo).</li>
+  <li>Clique em <strong>Manage Modules</strong> / <strong>Gerenciar Módulos</strong>.</li>
+  <li>Procure <strong>Pathfinder 1e - Bestiary</strong> na lista e marque a caixinha ao lado.</li>
+  <li>Clique em <strong>Save Module Settings</strong> / <strong>Salvar</strong>.</li>
+</ol>
+
+<p>O Foundry vai recarregar sozinho. Isso é normal.</p>
+
+<div class="box dica">
+  <span class="rotulo">Não achou na lista?</span>
+  <p>Quase sempre é a pasta repetida do passo 4, ou o Foundry não estava totalmente fechado
+  no passo 1. Confira os dois e tente de novo.</p>
+</div>
+
+<h2><span class="num">6</span>Migração — não precisa mais</h2>
+
+<p>Nas versões antigas deste módulo era preciso rodar uma etapa de conversão, senão
+os monstros que atacam várias vezes atacavam só uma. <strong>A partir da versão 0.4.0
+isso já vem pronto</strong> — pode pular direto para o passo 7.</p>
+
+<div class="box dica">
+  <span class="rotulo">Se quiser rodar mesmo assim</span>
+  <p>A migração do sistema faz outras arrumações menores e não faz mal rodar uma vez.
+  Se quiser: copie a pasta <code>pf1-bestiary</code> para a Área de Trabalho como
+  segurança, vá em <strong>Configurações do Jogo</strong> (a engrenagem) → área do
+  sistema Pathfinder 1e → <strong>Troubleshooter</strong> (<em>Solucionador de
+  problemas</em>), marque a opção de destravar os pacotes
+  (<em>“Unlock packs for migration”</em>) e clique em <strong>Migrate Module Packs</strong>
+  (<em>Migrar Pacotes de Módulos</em>). São mais de 3.000 monstros: leva vários
+  minutos e o Foundry pode parecer travado. Não feche nada.</p>
+</div>
+
+<h2><span class="num">7</span>Confira se deu certo</h2>
+
+<p>Na barra de ícones à direita, abra a aba de <strong>Compêndios</strong> (ícone de livros).
+Deve aparecer um grupo <strong>PF1 Bestiary</strong> com oito itens, de
+<em>Bestiary 00+</em> até <em>Bestiary 20+</em>.</p>
+
+<p>Abra o <em>Bestiary 00+</em>, procure o <strong>Goblin</strong> na lista e clique nele.
+Confira se bate com a tabela:</p>
+
+<table>
+  <tr><th>Onde olhar</th><th>Deve mostrar</th></tr>
+  <tr><td>Aba Summary, no topo</td><td>HD&nbsp;1 &middot; CR&nbsp;1/3 &middot; 135&nbsp;XP</td></tr>
+  <tr><td>Hit Points</td><td>6 de 6</td></tr>
+  <tr><td>Defenses</td><td>AC&nbsp;16 &middot; Touch&nbsp;13 &middot; Flat-Footed&nbsp;14</td></tr>
+  <tr><td>Aba <strong>Inventory</strong></td><td>Short Sword e Short Bow, com peso e preço</td></tr>
+</table>
+
+<p>Por último, arraste o Goblin do compêndio para um mapa qualquer. O boneco dele deve
+aparecer com uma <strong>barrinha verde de vida</strong> embaixo.</p>
+
+<p>Se tudo isso bateu, está funcionando. Pode apagar a cópia de segurança.</p>
+
+<div class="box dica">
+  <span class="rotulo">Teste do multiataque (opcional)</span>
+  <p>Para confirmar que a migração pegou: procure o <strong>Adult Red Dragon</strong>
+  (está no <em>Bestiary 15+</em>), abra a aba <strong>Combat</strong> e role o ataque
+  <strong>Claws</strong>. Ele deve rolar <strong>duas</strong> garradas, não uma.</p>
+</div>
+
+<h2>Se algo der errado</h2>
+
+<table>
+  <tr><th>Problema</th><th>Causa provável</th></tr>
+  <tr>
+    <td>O módulo não aparece na lista</td>
+    <td>Pasta repetida (passo 4) ou Foundry não estava fechado na hora de copiar (passo 1)</td>
+  </tr>
+  <tr>
+    <td>Aparece, mas os compêndios estão vazios</td>
+    <td>A pasta <code>packs</code> não veio junto — extraia o zip de novo</td>
+  </tr>
+  <tr>
+    <td>Monstros atacam só uma vez</td>
+    <td>Versão do módulo anterior à 0.4.0 — peça a mais nova</td>
+  </tr>
+  <tr>
+    <td>Tokens sem barra de vida</td>
+    <td>Versão antiga do módulo ainda instalada — refaça desde o passo 1</td>
+  </tr>
+</table>
+
+<p>Em qualquer um desses casos, dá para recomeçar do zero sem risco: apague a pasta
+<code>pf1-bestiary</code> e repita a partir do passo 1.</p>
+
+<div class="rodape">
+  <p>Módulo original de <strong>Noon</strong>, publicado sob GPLv3 e OGL. Conteúdo de Pathfinder
+  pertence à Paizo Inc. Esta versão apenas converte os arquivos para funcionar no Foundry 12 e 13
+  e corrige alguns problemas dos monstros — os detalhes técnicos estão no arquivo
+  <code>MIGRACAO-v12.md</code>, dentro da pasta do módulo.</p>
+</div>
+
+</div>
+</body>
+</html>
